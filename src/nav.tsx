@@ -179,7 +179,9 @@ export function WorkbenchNav({
                     >
                       <IconTip label={item.label} disabled={open}>
                         <span className="rail-slot">
-                          <ModuleGlyph name={item.icon} />
+                          <span className={!open && active ? "icon-face active" : "icon-face"}>
+                            <ModuleGlyph name={item.icon} />
+                          </span>
                         </span>
                       </IconTip>
                       <span>{item.label}</span>

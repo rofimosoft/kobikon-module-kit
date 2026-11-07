@@ -43,7 +43,7 @@ button { cursor: pointer; }
 .nav-anchor {
   position: relative;
   z-index: 3;
-  width: 66px;
+  width: 76px;
   height: 100%;
   flex-shrink: 0;
   overflow: hidden;
@@ -62,7 +62,7 @@ button { cursor: pointer; }
 
 .rail-slot {
   display: flex;
-  width: 66px;
+  width: 76px;
   flex-shrink: 0;
   align-items: center;
   justify-content: center;
@@ -71,6 +71,23 @@ button { cursor: pointer; }
 .rail-slot.stack { flex-direction: column; gap: 8px; }
 
 .rail-slot .icon-btn { margin-left: 0; }
+
+.icon-face {
+  display: flex;
+  width: 66px;
+  height: 40px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 16px;
+}
+
+.icon-face.active {
+  box-shadow: inset 3px 3px 6px var(--neu-dark), inset -3px -3px 6px var(--neu-light);
+}
+
+.grow-row > .nav-row[aria-current="page"] {
+  box-shadow: none;
+}
 
 .grow-row {
   display: flex;
@@ -120,7 +137,7 @@ button { cursor: pointer; }
 .pop {
   position: absolute;
   top: calc(100% + 4px);
-  left: 58px;
+  left: 68px;
   z-index: 3;
   display: grid;
   width: 200px;
@@ -134,7 +151,7 @@ button { cursor: pointer; }
 .nav-head .pop {
   top: 56px;
   right: 12px;
-  left: 58px;
+  left: 68px;
   width: auto;
 }
 
@@ -218,7 +235,7 @@ button.grow-row { gap: 8px; padding: 0; }
   box-shadow: inset 3px 3px 6px var(--neu-dark), inset -3px -3px 6px var(--neu-light);
 }
 
-.sub { display: grid; gap: 4px; margin-top: 4px; padding-right: 8px; padding-left: 58px; }
+.sub { display: grid; gap: 4px; margin-top: 4px; padding-right: 8px; padding-left: 68px; }
 
 .sub-clip {
   display: grid;
