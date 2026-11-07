@@ -240,9 +240,7 @@ function renderNavigation(manifest) {
 
 function renderGuide(manifest) {
   const component = `${pascal(manifest.id)}Page`
-  return `# ${manifest.label} modülünü çekirdeğe bırakma
-
-Bu klasör, Kobikon çekirdek deposu paylaşılmadan hazırlandı. Dosyaları çekirdek ekibine verin.
+  return `# ${manifest.label} modülünü ekleme
 
 1. \`data.ts\` ve \`page.tsx\` dosyalarını \`frontend/src/modules/${manifest.id}/\` altına koyun.
 2. \`navigation.snippet.ts\` içindeki nesneyi \`frontend/src/data/navigation.ts\` dosyasındaki \`modules\` dizisine ve \`ModuleId\` birliğine ekleyin. \`id\` kalıcıdır; adres \`/${manifest.id}/${manifest.groups[0].channels[0].id}\` olur.

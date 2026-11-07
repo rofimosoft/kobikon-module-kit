@@ -34,7 +34,7 @@ export function SharePanel({
 
   return (
     <div className="share">
-      <p>Bu sayfayı paylaşın. Ana depo burada yok.</p>
+      <p>Modülü deneyin, sonra paketi indirin.</p>
       <button type="button" className="primary" onClick={onPack}>
         Paketi indir
       </button>

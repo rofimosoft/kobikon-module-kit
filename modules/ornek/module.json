@@ -1,7 +1,7 @@
 {
   "id": "ornek",
   "label": "Örnek",
-  "description": "Paylaşılabilir örnek modül",
+  "description": "Örnek modül",
   "searchPlaceholder": "Örnekte ara",
   "tone": "bg-teal-700",
   "icon": "mark",

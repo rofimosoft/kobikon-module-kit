@@ -122,7 +122,7 @@ export function App() {
       return
     }
     saveFile(zipStore(renderPackFiles(live)), `${manifest.id}-paket.zip`)
-    setNotice("Paket indi. Bu dosyayı geri gönderin.")
+    setNotice("Paket indi.")
   }
 
   function downloadDefinition() {

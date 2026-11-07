@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": false,
   "type": "module",
-  "description": "Kobikon modüllerini ana depoyu paylaşmadan yazıp denemek için tezgah.",
+  "description": "Kobikon modülü yazıp denemek için tezgah.",
   "bin": {
     "kobikon-mod": "./bin/kobikon-mod.mjs"
   },

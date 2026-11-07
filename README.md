@@ -1,14 +1,14 @@
 # Kobikon modül tezgahı
 
-Bu bağlantıyı gönderin. Açan kişi ana depoyu görmez, kurulum yapmaz.
+Bu bağlantıyı gönderin. Açan kişi kurulum yapmadan modülü dener.
 
 **https://rofimosoft.github.io/kobikon-module-kit/**
 
 1. Örnek modüle bakın ya da kendi `module.json` dosyanızı yükleyin.
 2. İşletmeyi değiştirip kayıt ekleyin.
-3. **Paketi indir** ile gelen zip dosyasını geri gönderin.
+3. **Paketi indir** ile zip dosyasını alın.
 
-Zipin içinde `page.tsx`, `data.ts`, `navigation.snippet.ts` ve `NASIL.md` vardır. `NASIL.md`, çekirdek ekibinin dosyaları nereye koyacağını yazar.
+Zipin içinde `page.tsx`, `data.ts`, `navigation.snippet.ts` ve `NASIL.md` vardır. `NASIL.md`, dosyaların nereye konacağını yazar.
 
 Kaynak kod: https://github.com/rofimosoft/kobikon-module-kit
 
@@ -37,4 +37,4 @@ node bin/kobikon-mod.mjs pack gorevler
 
 Modül kimliği küçük harf ve tiredir, bir daha değişmez. Her kaynakta `kobikon`, `ege` ve `marmara` işletmelerinin üçünde de başlangıç kaydı bulunur. Alan türleri `text`, `number`, `date` ve `select`. İkonlar: `users`, `package`, `wallet`, `warehouse`, `briefcase`, `cart`, `truck`, `handshake`, `settings`, `mark`.
 
-Eklenen kayıt yalnız bu oturumda durur. Paketi indirmeden sayfa kapanırsa yeni kayıtlar kaybolur. Servis ve veritabanı bu araçta yoktur.
+Eklenen kayıt yalnız bu oturumda durur. Paketi indirmeden sayfa kapanırsa yeni kayıtlar kaybolur.
