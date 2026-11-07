@@ -13,6 +13,8 @@ npm run dev
 
 Önizleme `http://127.0.0.1:5174` adresinde açılır. Soldaki şerit modül, yan liste kanaldır. İşletme seçimi kayıtları süzer. Eklenen kayıt yalnız bu oturumda durur.
 
+Depo: https://github.com/rofimosoft/kobikon-module-kit
+
 ## Modül yazmak
 
 ```bash
