@@ -38,3 +38,8 @@ node bin/kobikon-mod.mjs pack gorevler
 Modül kimliği küçük harf ve tiredir, bir daha değişmez. Her kaynakta `kobikon`, `ege` ve `marmara` işletmelerinin üçünde de başlangıç kaydı bulunur. Alan türleri `text`, `number`, `date` ve `select`. İkonlar: `users`, `package`, `wallet`, `warehouse`, `briefcase`, `cart`, `truck`, `handshake`, `settings`, `mark`.
 
 Eklenen kayıt yalnız bu oturumda durur. Paketi indirmeden sayfa kapanırsa yeni kayıtlar kaybolur.
+
+## Kabuk
+
+İkon şeridi fare gelince yana doğru genişler. İşletme adı şeridin üstündedir ve oradan değişir. Alt sayfalar satırın altında açılır. Dar ekranda üst çubuktaki düğme menüyü açar ve kapatır.
+

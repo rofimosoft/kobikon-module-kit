@@ -245,7 +245,7 @@ function renderGuide(manifest) {
 1. \`data.ts\` ve \`page.tsx\` dosyalarını \`frontend/src/modules/${manifest.id}/\` altına koyun.
 2. \`navigation.snippet.ts\` içindeki nesneyi \`frontend/src/data/navigation.ts\` dosyasındaki \`modules\` dizisine ve \`ModuleId\` birliğine ekleyin. \`id\` kalıcıdır; adres \`/${manifest.id}/${manifest.groups[0].channels[0].id}\` olur.
 3. \`frontend/src/modules/registry.tsx\` içinde \`${component}\` bileşenini \`${manifest.id}\` anahtarına bağlayın.
-4. İkon haritasında \`${manifest.icon || "mark"}\` yoksa \`server-rail.tsx\` içine ekleyin.
+4. İkon haritasında \`${manifest.icon || "mark"}\` yoksa \`frontend/src/components/layout/module-nav.tsx\` içindeki \`icons\` kaydına ekleyin.
 
 Sayfa kendi kayıtlarını tutar ve seçili işletmeyi \`useWorkspace().enterpriseId\` ile süzer. Servis yazılana kadar \`fetch\` eklenmez. Kayıtlar sayfa yenilenince başlangıç verisine döner.
 `

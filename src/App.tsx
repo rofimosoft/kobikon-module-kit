@@ -8,19 +8,10 @@ import { loadModules, seedTables, tableKey } from "./catalog"
 import { enterprises } from "./enterprises"
 import { ResourceView } from "./resource-view"
 import { SharePanel } from "./share-panel"
+import { WorkbenchNav, useWorkbenchMenu } from "./nav"
 import type { ModuleManifest, Row } from "./types"
 
 const bundled = loadModules()
-const tones: Record<string, string> = {
-  "bg-sky-600": "#0284c7",
-  "bg-amber-600": "#d97706",
-  "bg-orange-600": "#ea580c",
-  "bg-teal-700": "#0f766e",
-  "bg-rose-600": "#e11d48",
-  "bg-emerald-600": "#059669",
-  "bg-violet-600": "#7c3aed",
-  "bg-brand": "#0f766e",
-}
 
 export function App() {
   const [modules, setModules] = useState(bundled)
@@ -28,9 +19,9 @@ export function App() {
   const [tables, setTables] = useState(() => seedTables(bundled))
   const [enterpriseId, setEnterpriseId] = useState(enterprises[0].id)
   const [query, setQuery] = useState("")
-  const [sidebarOpen, setSidebarOpen] = useState(false)
   const [selection, setSelection] = useState(() => readSelection(bundled))
   const [notice, setNotice] = useState("")
+  const menu = useWorkbenchMenu()
 
   useEffect(() => {
     if (modulesRef.current.length === 0) return
@@ -64,7 +55,6 @@ export function App() {
 
   function openChannel(moduleId: string, channelId: string) {
     window.location.hash = `#/${moduleId}/${channelId}`
-    setSidebarOpen(false)
   }
 
   function adopt(nextManifest: ModuleManifest) {
@@ -184,70 +174,33 @@ export function App() {
 
   return (
     <div className="shell">
-      <nav className="rail" aria-label="Modüller">
-        {modules.map((item) => (
-          <button
-            key={item.id}
-            type="button"
-            className="rail-button"
-            aria-current={item.id === manifest.id ? "page" : undefined}
-            title={item.label}
-            style={{ background: tones[item.tone ?? ""] ?? "#0f766e" }}
-            onClick={() => openChannel(item.id, channelsOf(item)[0].id)}
-          >
-            {item.label.slice(0, 1)}
-          </button>
-        ))}
-      </nav>
-      <aside className={sidebarOpen ? "sidebar open" : "sidebar"}>
-        <label className="enterprise">
-          <span>İşletme</span>
-          <select
-            value={enterpriseId}
-            onChange={(event) => setEnterpriseId(event.target.value)}
-          >
-            {enterprises.map((item) => (
-              <option key={item.id} value={item.id}>
-                {item.label}
-              </option>
-            ))}
-          </select>
-        </label>
-        <p className="module-copy">{manifest.description}</p>
-        {manifest.groups.map((group) => (
-          <div key={group.id} className="group">
-            <p>{group.label}</p>
-            {group.channels.map((item) => (
-              <button
-                key={item.id}
-                type="button"
-                className="channel"
-                aria-current={item.id === channel.id ? "page" : undefined}
-                onClick={() => openChannel(manifest.id, item.id)}
-              >
-                {item.label}
-              </button>
-            ))}
-          </div>
-        ))}
-        <SharePanel
-          notice={notice}
-          onPack={downloadPack}
-          onDefinition={downloadDefinition}
-          onImport={(file) => void importModule(file)}
-          onCreate={createModule}
-        />
-      </aside>
-      <div className="main">
+      <WorkbenchNav
+        modules={modules}
+        activeModuleId={manifest.id}
+        activeChannelId={channel.id}
+        enterpriseId={enterpriseId}
+        menu={menu}
+        onOpen={openChannel}
+        onEnterprise={setEnterpriseId}
+        notice={notice}
+        onPack={downloadPack}
+        onDefinition={downloadDefinition}
+        onImport={(file) => void importModule(file)}
+        onCreate={createModule}
+      />
+      <div className="main neu-raised">
         <header className="topbar">
-          <button
-            type="button"
-            className="menu"
-            aria-expanded={sidebarOpen}
-            onClick={() => setSidebarOpen((open) => !open)}
-          >
-            Kanallar
-          </button>
+          {menu.narrow ? (
+            <button
+              type="button"
+              className="icon-btn neu-raised neu-press"
+              aria-expanded={menu.open}
+              aria-label={menu.open ? "Menüyü kapat" : "Menüyü aç"}
+              onClick={menu.toggle}
+            >
+              <PanelMark />
+            </button>
+          ) : null}
           <h1>{channel.label}</h1>
           <input
             value={query}
@@ -255,13 +208,22 @@ export function App() {
             placeholder={manifest.searchPlaceholder || `${manifest.label} içinde ara`}
             aria-label={manifest.searchPlaceholder || `${manifest.label} içinde ara`}
           />
-          <button type="button" className="primary" onClick={downloadPack}>
+          <button type="button" className="primary neu-press" onClick={downloadPack}>
             Paketi indir
           </button>
         </header>
         <ResourceView resource={resource} rows={rows} query={query} onCreate={addRow} />
       </div>
     </div>
+  )
+}
+
+function PanelMark() {
+  return (
+    <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true">
+      <rect x="2" y="2.5" width="12" height="11" rx="2" fill="none" stroke="currentColor" strokeWidth="1.4" />
+      <path d="M6 2.5v11" stroke="currentColor" strokeWidth="1.4" />
+    </svg>
   )
 }
 
