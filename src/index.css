@@ -158,7 +158,7 @@ button { cursor: pointer; }
 
 .nav-head .pop {
   top: calc(100% + 4px);
-  right: 0;
+  right: 12px;
   left: 0;
   width: auto;
   padding: 8px;
