@@ -119,34 +119,36 @@ export function WorkbenchNav({
                 <PanelIcon />
               </button>
             </span>
-            <button
-              type="button"
-              className="brand-btn"
-              aria-expanded={enterpriseOpen}
-              aria-label={`${enterprise.label} işletmesini değiştir`}
-              onClick={() => setEnterpriseOpen((value) => !value)}
-            >
-              <span>{enterprise.label}</span>
-              <Chevron open={enterpriseOpen} />
-            </button>
-            {open && enterpriseOpen ? (
-              <div className="pop">
-                {enterprises.map((item) => (
-                  <button
-                    key={item.id}
-                    type="button"
-                    className="nav-sub"
-                    aria-current={item.id === enterpriseId ? "true" : undefined}
-                    onClick={() => {
-                      onEnterprise(item.id)
-                      setEnterpriseOpen(false)
-                    }}
-                  >
-                    {item.label}
-                  </button>
-                ))}
-              </div>
-            ) : null}
+            <div className="brand-slot">
+              <button
+                type="button"
+                className="brand-btn"
+                aria-expanded={enterpriseOpen}
+                aria-label={`${enterprise.label} işletmesini değiştir`}
+                onClick={() => setEnterpriseOpen((value) => !value)}
+              >
+                <span>{enterprise.label}</span>
+                <Chevron open={enterpriseOpen} />
+              </button>
+              {open && enterpriseOpen ? (
+                <div className="pop">
+                  {enterprises.map((item) => (
+                    <button
+                      key={item.id}
+                      type="button"
+                      className="nav-sub"
+                      aria-current={item.id === enterpriseId ? "true" : undefined}
+                      onClick={() => {
+                        onEnterprise(item.id)
+                        setEnterpriseOpen(false)
+                      }}
+                    >
+                      {item.label}
+                    </button>
+                  ))}
+                </div>
+              ) : null}
+            </div>
           </div>
           <div className="nav-scroll">
             {modules.map((item) => {
@@ -254,8 +256,9 @@ function IconTip({
     <span
       className="tip-host"
       onMouseEnter={(event) => {
-        const rect = event.currentTarget.getBoundingClientRect()
-        setBox({ x: rect.right + 8, y: rect.top + rect.height / 2 })
+        const slot = event.currentTarget.querySelector(".rail-slot") ?? event.currentTarget
+        const rect = slot.getBoundingClientRect()
+        setBox({ x: rect.right + 6, y: rect.top + rect.height / 2 })
       }}
       onMouseLeave={() => setBox(null)}
     >

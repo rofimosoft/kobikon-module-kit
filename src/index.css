@@ -148,10 +148,18 @@ button { cursor: pointer; }
   box-shadow: 7px 7px 16px var(--neu-dark), -7px -7px 16px var(--neu-light);
 }
 
+.brand-slot {
+  position: relative;
+  min-width: 0;
+  flex: 1;
+}
+
+.brand-slot .brand-btn { width: 100%; flex: none; }
+
 .nav-head .pop {
-  top: 68px;
-  right: 12px;
-  left: 76px;
+  top: calc(100% + 4px);
+  right: 0;
+  left: 0;
   width: auto;
   padding: 8px;
   border-radius: 22px;
