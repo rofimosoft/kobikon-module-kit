@@ -43,7 +43,7 @@ button { cursor: pointer; }
 .nav-anchor {
   position: relative;
   z-index: 3;
-  width: 76px;
+  width: 66px;
   height: 100%;
   flex-shrink: 0;
   overflow: hidden;
@@ -62,7 +62,7 @@ button { cursor: pointer; }
 
 .rail-slot {
   display: flex;
-  width: 76px;
+  width: 66px;
   flex-shrink: 0;
   align-items: center;
   justify-content: center;
@@ -120,7 +120,7 @@ button { cursor: pointer; }
 .pop {
   position: absolute;
   top: calc(100% + 4px);
-  left: 68px;
+  left: 58px;
   z-index: 3;
   display: grid;
   width: 200px;
@@ -134,7 +134,7 @@ button { cursor: pointer; }
 .nav-head .pop {
   top: 56px;
   right: 12px;
-  left: 68px;
+  left: 58px;
   width: auto;
 }
 
@@ -218,7 +218,7 @@ button.grow-row { gap: 8px; padding: 0; }
   box-shadow: inset 3px 3px 6px var(--neu-dark), inset -3px -3px 6px var(--neu-light);
 }
 
-.sub { display: grid; gap: 4px; margin-top: 4px; padding-right: 8px; padding-left: 68px; }
+.sub { display: grid; gap: 4px; margin-top: 4px; padding-right: 8px; padding-left: 58px; }
 
 .sub-clip {
   display: grid;
