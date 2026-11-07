@@ -1,0 +1,78 @@
+{
+  "id": "ornek",
+  "label": "Örnek",
+  "description": "Paylaşılabilir örnek modül",
+  "searchPlaceholder": "Örnekte ara",
+  "tone": "bg-teal-700",
+  "icon": "mark",
+  "groups": [
+    {
+      "id": "kayit",
+      "label": "Kayıt",
+      "channels": [
+        { "id": "notlar", "label": "notlar", "resource": "notes" },
+        { "id": "kisiler", "label": "kişiler", "resource": "people" }
+      ]
+    }
+  ],
+  "resources": {
+    "notes": {
+      "noun": "not",
+      "createLabel": "Yeni not",
+      "titleField": "title",
+      "fields": [
+        { "name": "title", "label": "Başlık", "required": true },
+        { "name": "owner", "label": "Sahip", "required": true },
+        { "name": "due", "label": "Tarih", "kind": "date" },
+        {
+          "name": "status",
+          "label": "Durum",
+          "kind": "select",
+          "required": true,
+          "defaultValue": "open",
+          "options": [
+            { "value": "open", "label": "Açık" },
+            { "value": "done", "label": "Bitti" }
+          ]
+        }
+      ],
+      "seeds": [
+        {
+          "enterpriseId": "kobikon",
+          "title": "Tezgah bakımı",
+          "owner": "Deniz",
+          "due": "2026-11-12",
+          "status": "open"
+        },
+        {
+          "enterpriseId": "ege",
+          "title": "Randevu listesi",
+          "owner": "Kerem",
+          "due": "2026-11-09",
+          "status": "open"
+        },
+        {
+          "enterpriseId": "marmara",
+          "title": "Kat kontrolü",
+          "owner": "Selin",
+          "due": "2026-11-08",
+          "status": "done"
+        }
+      ]
+    },
+    "people": {
+      "noun": "kişi",
+      "createLabel": "Yeni kişi",
+      "titleField": "name",
+      "fields": [
+        { "name": "name", "label": "Ad", "required": true },
+        { "name": "role", "label": "Görev", "required": true }
+      ],
+      "seeds": [
+        { "enterpriseId": "kobikon", "name": "Deniz Ak", "role": "Usta" },
+        { "enterpriseId": "ege", "name": "Kerem Soy", "role": "Danışma" },
+        { "enterpriseId": "marmara", "name": "Selin Taş", "role": "Kat sorumlusu" }
+      ]
+    }
+  }
+}

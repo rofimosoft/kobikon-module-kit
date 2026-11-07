@@ -1,0 +1,8 @@
+node_modules/
+dist/
+handoff/
+*.local
+.env
+.env.*
+.DS_Store
+*.log
