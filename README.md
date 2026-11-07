@@ -41,5 +41,5 @@ Eklenen kayıt yalnız bu oturumda durur. Paketi indirmeden sayfa kapanırsa yen
 
 ## Kabuk
 
-İkon şeridi fare gelince yana doğru genişler. İşletme adı şeridin üstündedir ve oradan değişir. Alt sayfalar satırın altında açılır. Dar ekranda üst çubuktaki düğme menüyü açar ve kapatır.
+İkon şeridi ince durur. Simgenin üstüne gelince adı görünür. Aynı sekmeye veya logo üstündeki açma tuşuna basınca şerit yana doğru genişler. İşletme adı şeridin üstündedir ve oradan değişir. Alt sayfalar satırın altında kayarak açılır. Sayfa başlığı aynı modülün alt sayfalarına geçer.
 

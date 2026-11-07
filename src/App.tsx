@@ -190,18 +190,12 @@ export function App() {
       />
       <div className="main neu-raised">
         <header className="topbar">
-          {menu.narrow ? (
-            <button
-              type="button"
-              className="icon-btn neu-raised neu-press"
-              aria-expanded={menu.open}
-              aria-label={menu.open ? "Menüyü kapat" : "Menüyü aç"}
-              onClick={menu.toggle}
-            >
-              <PanelMark />
-            </button>
-          ) : null}
-          <h1>{channel.label}</h1>
+          <ChannelMenu
+            label={channel.label}
+            channels={channelsOf(manifest)}
+            activeId={channel.id}
+            onOpen={(channelId) => openChannel(manifest.id, channelId)}
+          />
           <input
             value={query}
             onChange={(event) => setQuery(event.target.value)}
@@ -218,12 +212,51 @@ export function App() {
   )
 }
 
-function PanelMark() {
+function ChannelMenu({
+  label,
+  channels,
+  activeId,
+  onOpen,
+}: {
+  label: string
+  channels: { id: string; label: string }[]
+  activeId: string
+  onOpen: (channelId: string) => void
+}) {
+  const [open, setOpen] = useState(false)
   return (
-    <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true">
-      <rect x="2" y="2.5" width="12" height="11" rx="2" fill="none" stroke="currentColor" strokeWidth="1.4" />
-      <path d="M6 2.5v11" stroke="currentColor" strokeWidth="1.4" />
-    </svg>
+    <div className="channel-menu">
+      <button
+        type="button"
+        className="channel-trigger"
+        aria-expanded={open}
+        aria-label={`${label} alt sayfaları`}
+        onClick={() => setOpen((value) => !value)}
+      >
+        <span>{label}</span>
+        <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true">
+          <path d="M4 6l4 4 4-4" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+        </svg>
+      </button>
+      {open ? (
+        <div className="channel-pop neu-raised">
+          {channels.map((item) => (
+            <button
+              key={item.id}
+              type="button"
+              className="nav-sub"
+              aria-current={item.id === activeId ? "page" : undefined}
+              onClick={() => {
+                onOpen(item.id)
+                setOpen(false)
+              }}
+            >
+              {item.label}
+            </button>
+          ))}
+        </div>
+      ) : null}
+    </div>
   )
 }
 

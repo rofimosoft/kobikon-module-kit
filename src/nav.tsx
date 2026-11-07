@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from "react"
+import { useCallback, useEffect, useRef, useState, type ReactNode } from "react"
 
 import { enterprises } from "./enterprises"
 import { SharePanel } from "./share-panel"
@@ -6,10 +6,10 @@ import type { ModuleManifest } from "./types"
 
 export function useWorkbenchMenu() {
   const timer = useRef<number | null>(null)
-  const [hover, setHover] = useState(false)
+  const [revealed, setRevealed] = useState(false)
   const [pinned, setPinned] = useState(false)
   const [narrow, setNarrow] = useState(() => window.matchMedia("(max-width: 800px)").matches)
-  const open = narrow ? pinned : hover
+  const open = narrow ? pinned : revealed
 
   useEffect(() => {
     const query = window.matchMedia("(max-width: 800px)")
@@ -21,19 +21,34 @@ export function useWorkbenchMenu() {
     }
   }, [])
 
-  const show = useCallback(() => {
+  const cancelHide = useCallback(() => {
     if (timer.current) window.clearTimeout(timer.current)
-    setHover(true)
   }, [])
+
+  const expand = useCallback(() => {
+    cancelHide()
+    if (narrow) setPinned(true)
+    else setRevealed(true)
+  }, [cancelHide, narrow])
+
+  const collapse = useCallback(() => {
+    cancelHide()
+    if (narrow) setPinned(false)
+    else setRevealed(false)
+  }, [cancelHide, narrow])
+
+  const toggle = useCallback(() => {
+    if (narrow) setPinned((value) => !value)
+    else setRevealed((value) => !value)
+  }, [narrow])
 
   const hideSoon = useCallback(() => {
-    if (timer.current) window.clearTimeout(timer.current)
-    timer.current = window.setTimeout(() => setHover(false), 140)
-  }, [])
+    if (narrow) return
+    cancelHide()
+    timer.current = window.setTimeout(() => setRevealed(false), 140)
+  }, [cancelHide, narrow])
 
-  const toggle = useCallback(() => setPinned((value) => !value), [])
-
-  return { open, narrow, show, hideSoon, toggle }
+  return { open, narrow, expand, collapse, toggle, cancelHide, hideSoon }
 }
 
 export function WorkbenchNav({
@@ -63,7 +78,7 @@ export function WorkbenchNav({
   onImport: (file: File) => void
   onCreate: (id: string, label: string) => string
 }) {
-  const { open, narrow, show, hideSoon, toggle } = menu
+  const { open, narrow, expand, collapse, toggle, cancelHide, hideSoon } = menu
   const [enterpriseOpen, setEnterpriseOpen] = useState(false)
   const [openModuleId, setOpenModuleId] = useState<string | null>(null)
   const enterprise = enterprises.find((item) => item.id === enterpriseId) ?? enterprises[0]
@@ -77,7 +92,7 @@ export function WorkbenchNav({
 
   function choose(moduleId: string, channelId: string) {
     onOpen(moduleId, channelId)
-    if (narrow) toggle()
+    if (narrow && open) collapse()
   }
 
   return (
@@ -87,13 +102,22 @@ export function WorkbenchNav({
       ) : null}
       <div
         className={open ? "nav-anchor neu-raised open" : "nav-anchor neu-raised"}
-        onMouseEnter={narrow ? undefined : show}
-        onMouseLeave={narrow ? undefined : hideSoon}
+        onMouseEnter={cancelHide}
+        onMouseLeave={hideSoon}
       >
         <nav className="nav" aria-label="Modüller">
           <div className={enterpriseOpen && open ? "nav-head pop-host" : "nav-head"}>
-            <span className="rail-slot">
+            <span className={narrow ? "rail-slot logo-slot narrow" : "rail-slot logo-slot"}>
               <span className="mark neu-inset">K</span>
+              <button
+                type="button"
+                className="menu-toggle icon-btn neu-raised neu-press"
+                aria-expanded={open}
+                aria-label={open ? "Menüyü kapat" : "Menüyü aç"}
+                onClick={toggle}
+              >
+                <PanelIcon />
+              </button>
             </span>
             <button
               type="button"
@@ -105,16 +129,6 @@ export function WorkbenchNav({
               <span>{enterprise.label}</span>
               <Chevron open={enterpriseOpen} />
             </button>
-            {narrow && open ? (
-              <button
-                type="button"
-                className="icon-btn neu-press"
-                aria-label="Menüyü kapat"
-                onClick={toggle}
-              >
-                <PanelIcon />
-              </button>
-            ) : null}
             {open && enterpriseOpen ? (
               <div className="pop">
                 {enterprises.map((item) => (
@@ -148,13 +162,26 @@ export function WorkbenchNav({
                       aria-current={!open && active ? "page" : undefined}
                       aria-label={open ? undefined : item.label}
                       onClick={() => {
-                        if (first) choose(item.id, active && activeChannelId ? activeChannelId : first.id)
-                        if (openModuleId !== item.id) setOpenModuleId(item.id)
+                        if (!open && active) {
+                          expand()
+                          setOpenModuleId(item.id)
+                          return
+                        }
+                        if (!open) {
+                          if (first) onOpen(item.id, first.id)
+                          return
+                        }
+                        if (first) {
+                          choose(item.id, active && activeChannelId ? activeChannelId : first.id)
+                        }
+                        if (!opened) setOpenModuleId(item.id)
                       }}
                     >
-                      <span className="rail-slot">
-                        <ModuleGlyph name={item.icon} />
-                      </span>
+                      <IconTip label={item.label} disabled={open}>
+                        <span className="rail-slot">
+                          <ModuleGlyph name={item.icon} />
+                        </span>
+                      </IconTip>
                       <span>{item.label}</span>
                     </button>
                     <button
@@ -168,26 +195,29 @@ export function WorkbenchNav({
                       <Chevron open={opened} />
                     </button>
                   </div>
-                  {open && opened ? (
-                    <div className="sub">
-                      {item.groups.map((group) => (
-                        <div key={group.id}>
-                          {item.groups.length > 1 ? <p className="nav-label">{group.label}</p> : null}
-                          {group.channels.map((channel) => (
-                            <button
-                              key={channel.id}
-                              type="button"
-                              className="nav-sub"
-                              aria-current={active && channel.id === activeChannelId ? "page" : undefined}
-                              onClick={() => choose(item.id, channel.id)}
-                            >
-                              {channel.label}
-                            </button>
-                          ))}
-                        </div>
-                      ))}
+                  <div className={open && opened ? "sub-clip open" : "sub-clip"} aria-hidden={open && opened ? undefined : true}>
+                    <div>
+                      <div className="sub">
+                        {item.groups.map((group) => (
+                          <div key={group.id}>
+                            {item.groups.length > 1 ? <p className="nav-label">{group.label}</p> : null}
+                            {group.channels.map((channel) => (
+                              <button
+                                key={channel.id}
+                                type="button"
+                                className="nav-sub"
+                                tabIndex={open && opened ? undefined : -1}
+                                aria-current={active && channel.id === activeChannelId ? "page" : undefined}
+                                onClick={() => choose(item.id, channel.id)}
+                              >
+                                {channel.label}
+                              </button>
+                            ))}
+                          </div>
+                        ))}
+                      </div>
                     </div>
-                  ) : null}
+                  </div>
                 </div>
               )
             })}
@@ -204,6 +234,36 @@ export function WorkbenchNav({
         </nav>
       </div>
     </>
+  )
+}
+
+function IconTip({
+  label,
+  disabled,
+  children,
+}: {
+  label: string
+  disabled: boolean
+  children: ReactNode
+}) {
+  const [box, setBox] = useState<{ x: number; y: number } | null>(null)
+  if (disabled) return children
+  return (
+    <span
+      className="tip-host"
+      onMouseEnter={(event) => {
+        const rect = event.currentTarget.getBoundingClientRect()
+        setBox({ x: rect.right + 8, y: rect.top + rect.height / 2 })
+      }}
+      onMouseLeave={() => setBox(null)}
+    >
+      {children}
+      {box ? (
+        <span className="tip neu-raised" style={{ left: box.x, top: box.y }}>
+          {label}
+        </span>
+      ) : null}
+    </span>
   )
 }
 
