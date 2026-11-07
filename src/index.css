@@ -149,10 +149,19 @@ button { cursor: pointer; }
 }
 
 .nav-head .pop {
-  top: 56px;
+  top: 68px;
   right: 12px;
-  left: 58px;
+  left: 76px;
   width: auto;
+  padding: 8px;
+  border-radius: 22px;
+  background: var(--surface);
+  box-shadow: inset 4px 4px 8px var(--neu-dark), inset -4px -4px 8px var(--neu-light);
+}
+
+.nav-head .pop .nav-sub {
+  padding: 8px 14px;
+  border-radius: 16px;
 }
 
 .mark {
