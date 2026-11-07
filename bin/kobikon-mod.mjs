@@ -2,6 +2,7 @@
 import { mkdir, readdir, readFile, writeFile } from "node:fs/promises"
 import path from "node:path"
 
+import { blankModule } from "../shared/blank.mjs"
 import { packModule } from "../shared/pack.mjs"
 import { validateModule } from "../shared/validate.mjs"
 
@@ -122,62 +123,6 @@ async function loadModules() {
     }
   }
   return found
-}
-
-function blankModule({ id, label, description, channel, noun }) {
-  return {
-    id,
-    label,
-    description,
-    searchPlaceholder: `${label} içinde ara`,
-    tone: "bg-teal-700",
-    icon: "mark",
-    groups: [
-      {
-        id: "kayit",
-        label: "Kayıt",
-        channels: [{ id: channel, label: channel, resource: "records" }],
-      },
-    ],
-    resources: {
-      records: {
-        noun,
-        createLabel: `Yeni ${noun}`,
-        titleField: "title",
-        fields: [
-          { name: "title", label: "Başlık", required: true },
-          {
-            name: "status",
-            label: "Durum",
-            kind: "select",
-            required: true,
-            defaultValue: "open",
-            options: [
-              { value: "open", label: "Açık" },
-              { value: "done", label: "Bitti" },
-            ],
-          },
-        ],
-        seeds: [
-          {
-            enterpriseId: "kobikon",
-            title: `${label} kaydı`,
-            status: "open",
-          },
-          {
-            enterpriseId: "ege",
-            title: `${label} kaydı`,
-            status: "open",
-          },
-          {
-            enterpriseId: "marmara",
-            title: `${label} kaydı`,
-            status: "done",
-          },
-        ],
-      },
-    },
-  }
 }
 
 function flag(name) {
